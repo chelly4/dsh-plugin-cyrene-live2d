@@ -1,0 +1,20 @@
+# 把 dsh-plugin-cyrene-live2d 插进 profile 的插件树。
+# 装法：把整个包目录放进 <profile>/node_modules/，并在 profile 的 package.json 里
+#       的 dsh.profile.bundles 加上 "dsh-plugin-cyrene-live2d"。
+- insert:
+    - id: ui-cyrene-live2d
+      name: dsh-plugin-cyrene-live2d
+    # 副插件①：提醒。纯宿主侧（定时器 + 路由 + 自己的 JSON），不画界面；
+    # 面板那一屏由主客户端读 /cyrene-reminder/api/* 实现。
+    - id: cyrene-reminder
+      name: dsh-plugin-cyrene-live2d/features/reminder
+    # 副插件②：便签。同样是纯宿主侧；界面那一屏在主客户端里（createNotesUI 工厂）。
+    - id: cyrene-notes
+      name: dsh-plugin-cyrene-live2d/features/notes
+    # 副插件③「站姿」已彻底删除（2026-11-08）：lib/features/pose.js、assets/model-stand/、
+    # assets/Background/ 都已从三份副本清理，客户端里的站姿代码也一并移除。
+
+# 主题代码已内置进本插件（2026-11-08）：品牌位插槽需要空出来由主题填。
+- id: ui-brand-official
+  name: '@deepseek-ai/dsh-client-ui-brand-official'
+  disabled: true

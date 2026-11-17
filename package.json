@@ -1,0 +1,63 @@
+{
+  "name": "dsh-plugin-cyrene-live2d",
+  "version": "0.2.6",
+  "description": "在 DSH Web GUI 里挂一只昔涟（Live2D 桌宠 + 粉白主题 + 欢迎页立绘 + 定时提醒）",
+  "type": "module",
+  "main": "lib/index.js",
+  "icon": "assets/icon.webp",
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "desktop-pet",
+    "live2d",
+    "cyrene"
+  ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./icon": "./assets/icon.webp",
+    "./package.json": "./package.json",
+    "./features/reminder": "./lib/features/reminder.js",
+    "./features/reminder/icon": "./assets/icon-reminder.webp",
+    "./features/notes": "./lib/features/notes.js",
+    "./features/notes/icon": "./assets/icon-notes.webp",
+    "./features/reminder/locale/en.json": "./assets/locale/reminder/en.json",
+    "./features/notes/locale/en.json": "./assets/locale/notes/en.json",
+    "./features/reminder/locale/zh-CN.json": "./assets/locale/reminder/zh-CN.json",
+    "./features/notes/locale/zh-CN.json": "./assets/locale/notes/zh-CN.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "docs",
+    "assets"
+  ],
+  "engines": {
+    "node": ">=18",
+    "dsh": ">=0.2.1-rc.1 <0.3.0-0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    },
+    "catalog": {
+      "category": "ui",
+      "summary": {
+        "en": "A pink-white Cyrene theme for DeepSeek Harness: a Live2D desktop pet that blinks, follows the cursor and talks, plus a full-page skin, a crossfade wallpaper, a welcome-page illustration and scheduled reminders. Everything lives in the page; uninstalling it leaves the host untouched.",
+        "zh": "昔涟主题（粉白）：一只会眨眼、跟着鼠标看、会说话的 Live2D 桌宠，外加整页皮肤、交叉淡入的背景图、欢迎页立绘与定时提醒。全部活在页面里，卸载后宿主一个文件都不动。"
+      },
+      "capabilities": [
+        "webserver",
+        "storage",
+        "child-process",
+        "network:127.0.0.1"
+      ]
+    }
+  }
+}
