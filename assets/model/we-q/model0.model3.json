@@ -1,0 +1,246 @@
+{
+ "Version": 3,
+ "ConfVer": 0,
+ "Type": 0,
+ "FileReferences": {
+  "Moc": "FileReferences_Moc_0.moc3",
+  "Textures": [
+   "textures/FileReferences_Textures_0_0.png"
+  ],
+  "Physics": "physics/FileReferences_Physics_0.physic3.json",
+  "PhysicsV2": {
+   "File": "physics/FileReferences_Physics_0.physic3.json"
+  },
+  "Motions": {
+   "Idleidle": [
+    {
+     "Name": "idle",
+     "File": "motions/idle/FileReferences_Motions_Idleidle_0_File_0.motion3.json",
+     "WrapMode": 2,
+     "MotionDuration": 2000
+    }
+   ],
+   "wink#1": [
+    {
+     "Name": "wink",
+     "File": "motions/FileReferences_Motions_wink#1_0_File_0.motion3.json",
+     "WrapMode": 2,
+     "Text": "⭐~",
+     "PostCommand": "start_mtn Idleidle:idle"
+    }
+   ],
+   "talk#1": [
+    {
+     "Name": "摸头后",
+     "File": "motions/FileReferences_Motions_talk#1_0_File_0.motion3.json",
+     "WrapMode": 2,
+     "Text": "再多摸摸吧~♪",
+     "PostCommand": "start_mtn Idleidle:idle"
+    },
+    {
+     "Name": "一般",
+     "File": "motions/FileReferences_Motions_talk#1_1_File_0.motion3.json",
+     "WrapMode": 2,
+     "PostCommand": "start_mtn Idleidle:idle"
+    },
+    {
+     "Name": "一般长",
+     "File": "motions/FileReferences_Motions_talk#1_0_File_0.motion3.json",
+     "WrapMode": 2
+    }
+   ],
+   "shake#1": [
+    {
+     "Name": "head",
+     "File": "motions/FileReferences_Motions_shake#1_0_File_0.motion3.json",
+     "WrapMode": 2,
+     "PostCommand": "start_mtn smile:摸头后",
+     "OverrideFaceParams": true
+    }
+   ],
+   "抬手": [
+    {
+     "Name": "抬手",
+     "File": "motions/FileReferences_Motions_抬手_0_File_0.motion3.json",
+     "WrapMode": 2,
+     "Text": "有什么想说的都可以告诉我哦~",
+     "Command": "start_mtn talk#1:一般",
+     "PostCommand": "start_mtn 抬手:放手"
+    },
+    {
+     "Name": "放手",
+     "File": "motions/FileReferences_Motions_抬手_1_File_0.motion3.json",
+     "WrapMode": 2,
+     "PostCommand": "start_mtn Idleidle:idle"
+    }
+   ],
+   "idlenoexp": [
+    {
+     "Name": "noexp",
+     "WrapMode": 2,
+     "Expression": "noexp",
+     "PostCommand": "start_mtn Idleidle:idle"
+    }
+   ],
+   "shy": [
+    {
+     "Name": "shy",
+     "WrapMode": 2,
+     "Text": "呀！我会害羞的~",
+     "Expression": "shy2",
+     "Command": "start_mtn talk#1:一般长",
+     "PostCommand": "start_mtn idlenoexp:noexp",
+     "MotionDuration": 3000,
+     "OverrideFaceParams": true
+    }
+   ],
+   "smile": [
+    {
+     "Name": "摸头后",
+     "WrapMode": 2,
+     "Expression": "smile",
+     "Command": "start_mtn talk#1:摸头后",
+     "PostCommand": "start_mtn idlenoexp:noexp",
+     "MotionDuration": 2000,
+     "OverrideFaceParams": true
+    },
+    {
+     "Name": "一般",
+     "WrapMode": 2,
+     "Text": "今天过得开心吗~♪",
+     "Expression": "smile",
+     "Command": "start_mtn talk#1:一般",
+     "PostCommand": "start_mtn idlenoexp",
+     "MotionDuration": 2000,
+     "OverrideFaceParams": true
+    }
+   ]
+  },
+  "Expressions": [
+   {
+    "Name": "smile",
+    "File": "expressions/FileReferences_Expressions_0_File_0.exp3.json"
+   },
+   {
+    "Name": "shy2",
+    "File": "expressions/FileReferences_Expressions_1_File_0.exp3.json"
+   },
+   {
+    "Name": "noexp",
+    "File": "expressions/FileReferences_Expressions_2_File_0.exp3.json"
+   }
+  ],
+  "DisplayInfo": "测试.cdi3.json"
+ },
+ "Controllers": {
+  "ParamHit": {
+   "Items": [
+    {
+     "Name": "摸头",
+     "Id": "ParamAngleX",
+     "HitArea": "face",
+     "Axis": 0,
+     "MinValue": -10.0,
+     "MaxValue": 10.0,
+     "Factor": 0.01,
+     "ReleaseType": 0,
+     "Type": 1,
+     "MinMtn": "shake#1:head",
+     "MaxMtn": "shake#1:head"
+    }
+   ],
+   "Enabled": true
+  },
+  "ParamLoop": {},
+  "KeyTrigger": {},
+  "ParamTrigger": {},
+  "AreaTrigger": {},
+  "HandTrigger": {},
+  "EyeBlink": {
+   "MinInterval": 500,
+   "MaxInterval": 6000,
+   "Enabled": true
+  },
+  "LipSync": {
+   "Gain": 5.0
+  },
+  "MouseTracking": {
+   "SmoothTime": 0.197619066,
+   "Enabled": true
+  },
+  "AutoBreath": {
+   "Enabled": true
+  },
+  "ExtraMotion": {
+   "Enabled": true
+  },
+  "Accelerometer": {
+   "Enabled": true
+  },
+  "Microphone": {},
+  "Transform": {},
+  "FaceTracking": {
+   "Enabled": true
+  },
+  "HandTracking": {},
+  "ParamValue": {},
+  "PartOpacity": {},
+  "ArtmeshOpacity": {},
+  "ArtmeshColor": {},
+  "ArtmeshCulling": {
+   "DefaultMode": 0
+  },
+  "IntimacySystem": {},
+  "Battery": {}
+ },
+ "HitAreas": [
+  {
+   "Name": "左大腿",
+   "Id": "ArtMesh66",
+   "Motion": "shy:shy"
+  },
+  {
+   "Name": "左小腿",
+   "Id": "ArtMesh64",
+   "Motion": "shy:shy"
+  },
+  {
+   "Name": "右小腿",
+   "Id": "ArtMesh68",
+   "Motion": "shy:shy"
+  },
+  {
+   "Name": "右大腿",
+   "Id": "ArtMesh67",
+   "Motion": "shy:shy"
+  },
+  {
+   "Name": "middlehair",
+   "Id": "middlehair",
+   "Motion": "smile:一般"
+  },
+  {
+   "Name": "face",
+   "Id": "face"
+  },
+  {
+   "Name": "右手",
+   "Id": "ArtMesh63",
+   "Motion": "抬手:抬手"
+  },
+  {
+   "Name": "左手",
+   "Id": "ArtMesh62",
+   "Motion": "抬手:抬手"
+  },
+  {
+   "Name": "backhair",
+   "Id": "backhair",
+   "Motion": "wink#1:wink"
+  }
+ ],
+ "Options": {
+  "TexFixed": true,
+  "TexType": 0
+ }
+}
