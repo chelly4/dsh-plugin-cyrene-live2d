@@ -1,6 +1,6 @@
 {
     "name":  "dsh-plugin-cyrene-live2d",
-    "version":  "0.2.7",
+    "version":  "0.2.8",
     "description":  "在 DSH Web GUI 里挂一只昔涟（Live2D 桌宠 + 粉白主题 + 欢迎页立绘 + 定时提醒）",
     "type":  "module",
     "main":  "lib/index.js",
