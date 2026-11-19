@@ -1,4 +1,4 @@
-# 小昔涟 · Live2D 桌宠（dsh-plugin-cyrene-live2d **v0.2.8**）
+# 小昔涟 · Live2D 桌宠（dsh-plugin-cyrene-live2d **v0.2.9**）
 
 > **仅支持 Windows。** 需要 DSH `>=0.2.1-rc.1 <0.3.0-0`，Node `>=18`（用 DSH 自带的 node 即可，不需要单独装）。
 
@@ -11,7 +11,12 @@
 入口在外观 →「主题」。原来那套粉白皮肤（`SKIN_CSS`）保留但默认让位，主题关掉时才接管。
 **整页背景图轮播已下线**（0.2.0 起整页观感交给主题的水印与氛围层）。
 
-**0.2.8（本次）**：安全加固 + 安装修复。
+**0.2.9（本次）**：第三方来源补全 + 授权说明。无功能改动。
+- **补全来源声明**：新增 Live2D Cubism SDK（Core 为专有许可的 "Redistributable Code"）、PixiJS v6.5.10（MIT）、`better-er/dsh-cache-billing`（MIT）三项。
+- **三个模型分别标注作者与授权状态**：主模型（@是依七哒）、bongo cat（@熬夜老虎）、Q 版（@-----Alone------），并引用各视频简介里的原话。
+- **明确 bongo cat 的授权风险**：@熬夜老虎 的简介写着「禁止任何形式的二次售卖、分享、上传、二改」，本包对该素材的打包分发超出其声明范围，已如实标注并承诺随时移除。
+
+**0.2.8**：安全加固 + 安装修复。
 - **修：`package.json` 带 UTF-8 BOM**——DSH 读取时不去 BOM，`JSON.parse` 失败，装完在列表里识别不到。已去掉。
 - **修：`/api/mys/*` 九条路由没有同源校验**——它们注册在 `ctx.connection.fetch`（另一套 HTTP 入口）上，主插件的 `/cyrene-live2d/api/*` 护栏完全覆盖不到：任意网页用 `text/plain` POST 就能触发登出 / 改签到开关 / 立即签到。现在两套入口共用 `lib/http-guard.js` 的 `checkLocalHeaders()`，不通过直接 403。
 - **修：`py` 字段放行 `.bat` / `.cmd`**——配合「`bin` 前置 PATH」和 600ms 后自动启动，一个任意批处理文件就会被 `cmd.exe` 执行。现在只认 `python` / `python3` / `python3.N.exe`，且路径形式必须是普通文件。
@@ -56,7 +61,7 @@
 ### 方式 A：让 DSH 自己装（推荐）
 
 1. 打开 **设置 → 插件 → 添加插件**
-2. 把 `dsh-plugin-cyrene-live2d-0.2.6.tgz` 的**绝对路径**粘进去（例如 `D:\下载\dsh-plugin-cyrene-live2d-0.2.6.tgz`）
+2. 把 `dsh-plugin-cyrene-live2d-0.2.9.tgz` 的**绝对路径**粘进去（例如 `D:\下载\dsh-plugin-cyrene-live2d-0.2.9.tgz`）
 3. 点安装，等它跑完 → **重启 DSH**
 
 > 它底层用 pnpm 装，会自动写进 `dsh.profile.bundles`，你不用改任何配置文件。
@@ -217,5 +222,50 @@ custom/          你上传的表情包      mys/             米游社登录态
 - [InariNGT-Ofiicial/jingyu-live2d-agent](https://github.com/InariNGT-Ofiicial/jingyu-live2d-agent)（MIT）—— 语义动作协议
 - [RVC-Boss/GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS)（MIT）—— 可选现场语音
 - [Bilibili · 【星穹铁道】自制昔涟小人桌宠分享（BV1itxd6QEY4）](https://www.bilibili.com/video/BV1itxd6QEY4)（UP @-----Alone------）—— Q 版 Live2D 模型（`assets/model/we-q/`），来源为其自制的 Wallpaper Engine 壁纸，解包后仅用于本包的非商业自用场景
+
+### Live2D 运行时与渲染
+
+- [Live2D Cubism SDK](https://www.live2d.com/en/sdk/)（**专有许可，不是 MIT**）——
+  `assets/runtime/live2dcubismcore.min.js` 是 **Cubism Core**（文件头写明
+  `(C) 2019 Live2D Inc. All rights reserved.` 与 "Redistributable Code"），
+  `assets/vendor/cubism4.min.js` 是 **Cubism Web Framework**。
+  两者使用均受
+  [Live2D Proprietary Software License](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html)
+  约束，本包按该许可的 "Redistributable Code" 条款随应用分发。
+- [PixiJS](https://pixijs.com/) **v6.5.10**（MIT）—— Live2D 的渲染底座
+  （`assets/vendor/pixi.min.js`，文件头自带 MIT 声明）。
+
+### 模型素材的三个来源
+
+**三个模型都不是本项目原创，版权归各自作者。本包仅作个人非商业自用，
+若原作者要求下架，会立即移除对应模型。**
+
+| 模型 | 目录 | 来源 |
+|---|---|---|
+| 主模型（坐秋千 · 12 表情 · 53 参数） | `assets/model/Cyrene.model3.json`<br>`assets/model/model.moc3` | [BV1FPydBPEfC](https://www.bilibili.com/video/BV1FPydBPEfC)（UP **@是依七哒**）—— 项目最早引入的一个，2026-10-29 |
+| bongo cat（敲键盘） | `assets/model/bongo-standard/` | [BV1wd2gBUEsF](https://www.bilibili.com/video/BV1wd2gBUEsF)（UP **@熬夜老虎**）—— 见下方授权说明 |
+| Q 版（短粉发） | `assets/model/we-q/` | [BV1itxd6QEY4](https://www.bilibili.com/video/BV1itxd6QEY4)（UP **@-----Alone------**） |
+
+**关于 bongo cat 的授权，需要特别说明：**
+
+[BV1wd2gBUEsF](https://www.bilibili.com/video/BV1wd2gBUEsF)（UP @熬夜老虎）的简介原文写着：
+
+> 桌宠本体无表情版可在工房（评论区置顶）免费领取（0.1）
+> 赞助版包含原创12套表情，键鼠模式/纯键盘模式/手柄模式
+> **仅供个人势范围内的直播、视频剪辑、个人自用**
+> **禁止任何形式的二次售卖、分享、上传、二改、物料印制**
+
+**如果 bongo cat 确实出自该作者，那么本包对它做「打包分发」超出了原作者声明的范围。**
+本项目在此如实标注，并遵守原作者的移除要求；使用者应自行判断并承担相应责任。
+
+[BV1FPydBPEfC](https://www.bilibili.com/video/BV1FPydBPEfC)（UP @是依七哒）与
+[BV1itxd6QEY4](https://www.bilibili.com/video/BV1itxd6QEY4)（UP @-----Alone------）
+的简介中**没有看到明确的授权条款或禁止分享声明**，但**没有声明不等于授权**——
+若原作者提出异议，本包同样会立即移除对应素材。
+
+### 其它
+
+- [better-er/dsh-cache-billing](https://github.com/better-er/dsh-cache-billing)（MIT）——
+  余额 / 账单统计的计算口径
 
 美术与角色声音版权归米哈游所有，不在上述许可范围内。
