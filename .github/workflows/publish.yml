@@ -46,15 +46,21 @@ jobs:
         run: |
           set +e
           npm --version
-          node -e "console.log('registry', process.env.npm_config_registry || '(default)'); console.log('OIDC url present:', !!process.env.ACTIONS_ID_TOKEN_REQUEST_URL)"
-          npm publish --access public --provenance --loglevel verbose > /tmp/pub.log 2>&1
+          node -e "console.log('node', process.version); console.log('oidc url present:', !!process.env.ACTIONS_ID_TOKEN_REQUEST_URL)"
+          echo "--- attempt 1: no provenance ---"
+          npm publish --access public --loglevel verbose > /tmp/pub.log 2>&1
           code=$?
-          echo "--- npm publish exit=$code ---"
-          tail -60 /tmp/pub.log
+          tail -40 /tmp/pub.log
           if [ $code -ne 0 ]; then
-            msg=$(tail -25 /tmp/pub.log | tr '\n' ' ' | sed 's/%/%25/g; s/\r/ /g' | cut -c1-900)
-            echo "::error title=npm publish failed::$msg"
-            exit $code
+            echo "--- attempt 2: with provenance ---"
+            npm publish --access public --provenance --loglevel verbose > /tmp/pub2.log 2>&1
+            code=$?
+            tail -40 /tmp/pub2.log
+            if [ $code -ne 0 ]; then
+              msg=$(tail -30 /tmp/pub2.log | tr '\n' ' ' | cut -c1-900)
+              echo "::error title=npm publish failed (both no-provenance and provenance)::$msg"
+              exit $code
+            fi
           fi
 
       - name: Build release assets

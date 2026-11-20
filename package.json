@@ -6,6 +6,7 @@
     "main":  "lib/index.js",
     "icon":  "assets/icon.webp",
     "license":  "MIT",
+    "repository": { "type": "git", "url": "git+https://github.com/chelly4/dsh-plugin-cyrene-live2d.git" },
     "keywords":  [
                      "dsh",
                      "dsh-plugin",
