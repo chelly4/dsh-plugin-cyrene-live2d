@@ -1,0 +1,69 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Trusted publishing: the workflow authenticates to npm with a short-lived
+# OIDC token, so no NPM_TOKEN secret is stored anywhere.
+# Requires a one-time binding on npmjs.com:
+#   package -> Settings -> Trusted publishing -> add GitHub Actions publisher
+#   repository: chelly4/dsh-plugin-cyrene-live2d
+#   workflow filename: publish.yml
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify tag matches package.json version
+        run: |
+          set -euo pipefail
+          npm --version
+          node - <<'EOF'
+          const pkg = require('./package.json');
+          const tag = process.env.GITHUB_REF_NAME || '';
+          if (!tag.startsWith('v') || tag.slice(1) !== pkg.version) {
+            console.error(`tag ${tag} does not match package.json version ${pkg.version}`);
+            process.exit(1);
+          }
+          console.log(`tag/version ok: ${tag}`);
+          EOF
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+
+      - name: Build release assets
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p dist
+          npm pack --pack-destination dist
+          cd dist
+          tar -xzf ./*.tgz
+          cd package
+          zip -rq "../dsh-plugin-cyrene-live2d-${VERSION}.zip" .
+          cd ..
+          sha256sum ./*.tgz ./*.zip > checksums.txt
+          ls -l
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.tgz
+            dist/*.zip
+            dist/checksums.txt
+          generate_release_notes: true
